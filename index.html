@@ -1,0 +1,632 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Remembering Mum</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,500;7..72,600&family=Inter:wght@400;500;600&display=swap">
+<style>
+*, *::before, *::after { box-sizing: border-box; }
+html { color-scheme: light; }
+body { margin: 0; }
+[hidden] { display: none !important; }
+:root {
+  --bg: #eef1ed;
+  --surface: #f8faf7;
+  --ink: #1d2723;
+  --muted: #5b6862;
+  --line: #d3dbd5;
+  --accent: #3c6a5b;
+  --accent-ink: #ffffff;
+  --accent-soft: #dde9e3;
+  --you: #e3e9f2;
+  --warn: #8a5a12;
+  --warn-soft: #f6ecd9;
+  --f-display: "Literata", Georgia, "Times New Roman", serif;
+  --f-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #131917; --surface: #1b2320; --ink: #e2e8e4; --muted: #9aa8a1; --line: #2e3a35;
+    --accent: #8cbba9; --accent-ink: #10211b; --accent-soft: #24352f; --you: #232c38;
+    --warn: #e6b866; --warn-soft: #3a2f1c; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #131917; --surface: #1b2320; --ink: #e2e8e4; --muted: #9aa8a1; --line: #2e3a35;
+  --accent: #8cbba9; --accent-ink: #10211b; --accent-soft: #24352f; --you: #232c38;
+  --warn: #e6b866; --warn-soft: #3a2f1c; color-scheme: dark;
+}
+html, body { height: 100%; }
+body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.55; }
+.wrap { max-width: 720px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+h1, h2 { font-family: var(--f-display); font-weight: 500; text-wrap: balance; margin: 0; }
+h1 { font-size: 2rem; line-height: 1.15; letter-spacing: -0.01em; }
+h2 { font-size: 1.25rem; }
+p { margin: 0; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.btn { border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 0.55rem 0.95rem; }
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 500; }
+.btn.quiet { background: transparent; border-color: transparent; color: var(--muted); padding-inline: 0.5rem; }
+.btn.quiet:hover { color: var(--ink); }
+.btn:disabled { opacity: 0.5; cursor: default; }
+.label { font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+.note { background: var(--warn-soft); color: var(--warn); border-radius: 10px; padding: 0.7rem 0.9rem; font-size: 0.9rem; }
+
+/* Start screen */
+#start { padding-block: 2.5rem 3rem; display: grid; gap: 2rem; }
+.intro { display: grid; gap: 0.9rem; max-width: 62ch; }
+.intro p { color: var(--muted); }
+.picker { display: grid; gap: 1.25rem; }
+.group { display: grid; gap: 0.6rem; }
+.names { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.name-btn { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 0.5rem 1rem; font-family: var(--f-display); font-size: 1.05rem; }
+.name-btn:hover { border-color: var(--accent); background: var(--accent-soft); }
+.name-btn small { font-family: var(--f-body); color: var(--muted); font-size: 0.8rem; margin-left: 0.35rem; }
+.other { display: grid; gap: 0.6rem; border-top: 1px solid var(--line); padding-top: 1.25rem; }
+.row { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+.row > * { min-width: 0; }
+input[type=text], select, textarea { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 0.55rem 0.75rem; }
+input[type=text] { flex: 1 1 12rem; }
+.empty { color: var(--muted); font-size: 0.9rem; }
+
+/* Owner panel */
+#owner { display: grid; gap: 1.25rem; border-top: 1px solid var(--line); padding-top: 1.75rem; }
+.resp { display: grid; gap: 0.5rem; }
+.resp-item { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; align-items: center; justify-content: space-between; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 0.75rem 0.9rem; }
+.resp-item .who { font-family: var(--f-display); font-size: 1.05rem; }
+.resp-item .meta { color: var(--muted); font-size: 0.85rem; font-variant-numeric: tabular-nums; }
+.pill { display: inline-block; border-radius: 999px; padding: 0.1rem 0.55rem; font-size: 0.75rem; background: var(--accent-soft); color: var(--accent); margin-left: 0.4rem; vertical-align: middle; }
+.transcript { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 1rem; max-height: 60vh; overflow: auto; display: grid; gap: 0.75rem; }
+.transcript .t-c { font-family: var(--f-display); }
+.transcript .t-y { color: var(--muted); border-left: 2px solid var(--line); padding-left: 0.75rem; white-space: pre-wrap; }
+
+/* Conversation */
+#chat { height: 100%; display: flex; flex-direction: column; }
+.top { border-bottom: 1px solid var(--line); background: var(--bg); }
+.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; padding-block: 0.7rem; }
+.top .title { font-family: var(--f-display); font-size: 1.05rem; }
+.progress { color: var(--muted); font-size: 0.82rem; font-variant-numeric: tabular-nums; }
+.bar { height: 3px; background: var(--line); }
+.bar i { display: block; height: 100%; width: 0; background: var(--accent); transition: width 0.4s ease; }
+.scroll { flex: 1; overflow-y: auto; }
+.msgs { display: grid; gap: 1.1rem; padding-block: 1.5rem 1rem; }
+.m-c { font-family: var(--f-display); font-size: 1.08rem; line-height: 1.6; white-space: pre-wrap; max-width: 62ch; }
+.m-y { justify-self: end; background: var(--you); border-radius: 14px 14px 4px 14px; padding: 0.65rem 0.9rem; max-width: 85%; white-space: pre-wrap; }
+.thinking { color: var(--muted); font-style: italic; font-family: var(--f-display); }
+.composer { border-top: 1px solid var(--line); background: var(--bg); padding-bottom: env(safe-area-inset-bottom, 0px); }
+.composer .wrap { display: grid; gap: 0.5rem; padding-block: 0.75rem; }
+#reply { width: 100%; resize: none; min-height: 3.2rem; max-height: 40vh; line-height: 1.5; }
+.c-actions { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem; align-items: center; }
+.c-actions .left, .c-actions .right { display: flex; gap: 0.4rem; flex-wrap: wrap; align-items: center; }
+#mic.on { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.hint { color: var(--muted); font-size: 0.8rem; }
+#partial { color: var(--muted); font-style: italic; font-size: 0.9rem; }
+.menu { display: grid; gap: 0.5rem; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 0.9rem; }
+@media (prefers-reduced-motion: reduce) { .bar i { transition: none; } }
+
+:root { padding-top: env(safe-area-inset-top, 0px); }
+.signin { display: grid; gap: 0.75rem; max-width: 30rem; }
+.linkbox { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+.linkbox code { flex: 1 1 16rem; min-width: 0; overflow-wrap: anywhere; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 0.55rem 0.75rem; font-size: 0.85rem; }
+</style>
+</head>
+<body>
+
+<section id="start" class="wrap" aria-labelledby="h-start">
+  <div class="intro">
+    <span class="label">For the book about Mum</span>
+    <h1 id="h-start">Remembering Mum</h1>
+    <p>This is a conversation, not a form. Claude, an AI, will ask you about Mum one question at a time and follow up the way a good listener would. You can talk or type. Your answers save as you go, so you can stop and come back to this link on the same device any time.</p>
+    <p>It takes 45 minutes to an hour. It doesn't have to be in one sitting, though one sitting in a quiet space might help you go deeper. You can pass on any question, and at the end you can say what you'd want kept out of the book. What you say is saved privately for Neil. No one else can read it.</p>
+  </div>
+
+  <p class="note" id="no-link" hidden>This page only works from the link Neil sent. Please open that link again.</p>
+
+  <div class="picker" id="picker" hidden>
+    <span class="label">Who are you?</span>
+    <div class="group">
+      <span class="label">Mum's children</span>
+      <div class="names" id="names-sib"><span class="empty" id="names-loading">Loading names…</span></div>
+    </div>
+    <div class="group" id="grp-sp" hidden>
+      <span class="label">Partners</span>
+      <div class="names" id="names-sp"></div>
+    </div>
+    <div class="other">
+      <span class="label">Not on the list?</span>
+      <div class="row">
+        <input type="text" id="other-name" placeholder="Your first name" autocomplete="given-name" aria-label="Your first name">
+        <select id="other-role" aria-label="How you're related">
+          <option value="sibling">One of Mum's children</option>
+          <option value="spouse">Married to one of them</option>
+        </select>
+        <button class="btn" id="other-go" type="button">Start</button>
+      </div>
+    </div>
+  </div>
+  <p class="note" id="start-err" hidden></p>
+</section>
+
+<section id="owner" class="wrap" hidden aria-labelledby="h-owner" style="padding-block: 2.5rem 3rem; display: grid; gap: 1.75rem;">
+  <div class="intro">
+    <span class="label">Private</span>
+    <h1 id="h-owner">For Neil</h1>
+  </div>
+  <div class="signin" id="signin" hidden>
+    <p>Sign in with your email address. You'll get a link by email; open it on this device.</p>
+    <div class="row">
+      <input type="text" id="si-email" inputmode="email" autocomplete="email" placeholder="Your email" aria-label="Your email">
+      <button class="btn primary" id="si-go" type="button">Email me a link</button>
+    </div>
+    <p class="hint" id="si-msg"></p>
+  </div>
+  <div id="panel" hidden style="display: grid; gap: 1.75rem;">
+    <div class="group">
+      <span class="label">The link to send</span>
+      <div class="linkbox"><code id="share-link"></code><button class="btn" id="share-copy" type="button">Copy</button></div>
+    </div>
+    <div class="group">
+      <span class="label">Conversations so far</span>
+      <div class="resp" id="resp"><span class="empty">Loading…</span></div>
+      <div id="viewer" hidden></div>
+    </div>
+    <div class="group">
+      <span class="label">People on the list</span>
+      <div class="resp" id="plist"></div>
+      <div class="row">
+        <input type="text" id="add-name" placeholder="Name" aria-label="Name to add">
+        <select id="add-role" aria-label="Role">
+          <option value="sibling">Mum's child</option>
+          <option value="spouse">Partner</option>
+        </select>
+        <input type="text" id="add-partner" placeholder="Married to (optional)" aria-label="Married to">
+        <button class="btn" id="add-go" type="button">Add</button>
+      </div>
+    </div>
+    <div class="row"><button class="btn quiet" id="so-btn" type="button">Sign out</button></div>
+  </div>
+  <p class="note" id="owner-err" hidden></p>
+</section>
+
+<section id="chat" hidden aria-label="Conversation">
+  <div class="top">
+    <div class="wrap">
+      <div>
+        <div class="title" id="who-title">Remembering Mum</div>
+        <div class="progress" id="progress">Getting started</div>
+      </div>
+      <div class="row">
+        <button class="btn quiet" id="speak-toggle" type="button" hidden aria-pressed="false">Read aloud: off</button>
+        <button class="btn quiet" id="menu-btn" type="button" aria-expanded="false">More</button>
+      </div>
+    </div>
+    <div class="bar"><i id="bar"></i></div>
+  </div>
+  <div class="scroll" id="scroll">
+    <div class="wrap">
+      <div class="menu" id="menu" hidden>
+        <p class="hint">Your conversation saves as you go. You can also keep your own copy.</p>
+        <div class="row">
+          <button class="btn" id="dl-btn" type="button">Download my conversation</button>
+          <button class="btn" id="copy-btn" type="button">Copy it</button>
+          <button class="btn" id="switch-btn" type="button">I'm not this person</button>
+        </div>
+        <p class="hint" id="menu-msg"></p>
+      </div>
+      <div class="msgs" id="msgs" aria-live="polite"></div>
+    </div>
+  </div>
+  <div class="composer">
+    <div class="wrap">
+      <span id="partial" hidden></span>
+      <textarea id="reply" rows="2" placeholder="Talk or type your answer…" aria-label="Your answer"></textarea>
+      <div class="c-actions">
+        <div class="left">
+          <button class="btn" id="mic" type="button" hidden aria-pressed="false">Talk</button>
+          <button class="btn quiet" id="pass-btn" type="button">Pass on this one</button>
+          <button class="btn quiet" id="break-btn" type="button">Take a break</button>
+        </div>
+        <div class="right">
+          <button class="btn quiet" id="retry-btn" type="button" hidden>Try again</button>
+          <button class="btn primary" id="send-btn" type="button">Send</button>
+        </div>
+      </div>
+      <span class="hint" id="mic-hint" hidden>On a phone, tap the microphone on your keyboard to talk instead of typing.</span>
+    </div>
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.118.0/dist/umd/supabase.js"></script>
+<script>
+(() => {
+"use strict";
+
+// ---------- Settings (public by design: the key below only lets the page call the service; the data stays locked) ----------
+const SUPABASE_URL = "https://ywkpqdrsvesygccrtlbn.supabase.co";
+const PUBLISHABLE_KEY = "sb_publishable_XTVYLMyrPhMoN3-i6fQ2dw_AihxGgEO";
+const FN = SUPABASE_URL + "/functions/v1/interview";
+const TOTALS = { sibling: 23, spouse: 12 };
+const SECTIONS = {
+  sibling: ["Who she was to you","Who she was to you","Before us","Before us","Before us","The Mum you had","The Mum you had","The Mum you had","The Mum you had","The Mum you had","Her inner life","Her inner life","Her inner life","Her inner life","The harder ground","The harder ground","The harder ground","The harder ground","What she left","What she left","What she left","To close","To close"],
+  spouse: ["Meeting her","Meeting her","Meeting her","Meeting her","From a little outside","From a little outside","From a little outside","From a little outside","What she left","What she left","To close","To close"]
+};
+
+// ---------- Helpers ----------
+const $ = id => document.getElementById(id);
+const store = {
+  get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } },
+  set(k, v) { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, JSON.stringify(v)); } catch {} }
+};
+const slug = s => String(s).toLowerCase().normalize("NFKD").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 40) || "person";
+const clean = t => String(t).replace(/\[\[[\s\S]*$/, "").trim();
+const fmtDate = s => s ? new Date(s).toLocaleString(undefined, { day: "numeric", month: "short", hour: "numeric", minute: "2-digit" }) : "";
+
+const ERR = {
+  bad_link: "This link doesn't work any more. Ask Neil for the link again.",
+  not_found: "This conversation couldn't be found on this device's link. You can start again from the list.",
+  busy: "Claude is busy for a moment. Wait a little, then tap Try again.",
+  refused: "Claude couldn't answer that. Try saying it another way.",
+  too_many: "A lot of conversations started today. Please try again tomorrow.",
+  too_long: "This conversation has reached its length limit. Your answers are saved; let Neil know.",
+  no_key: "The conversation isn't switched on yet. Let Neil know.",
+  no_credit: "The conversation has paused on Neil's side. Your answers are saved; let Neil know.",
+  not_set_up: "The page isn't set up yet. Let Neil know."
+};
+async function call(action, body = {}, jwt) {
+  const headers = { "Content-Type": "application/json", apikey: PUBLISHABLE_KEY };
+  if (jwt) headers.Authorization = "Bearer " + jwt;
+  let res;
+  try { res = await fetch(FN, { method: "POST", headers, body: JSON.stringify({ action, ...body }) }); }
+  catch { throw { code: "network" }; }
+  let data = {};
+  try { data = await res.json(); } catch {}
+  if (!res.ok) throw { code: data.error || "server_error" };
+  return data;
+}
+const msgFor = e => ERR[e && e.code] || "Something interrupted the conversation. Tap Try again.";
+
+// ---------- Invite link ----------
+const params = new URLSearchParams(location.search);
+let K = params.get("k") || store.get("mum-k");
+if (params.get("k")) store.set("mum-k", params.get("k"));
+const ADMIN = params.has("neil");
+
+// ---------- State ----------
+let people = [];
+let C = null;            // { key, id, token, name, role }
+let turns = [], qNow = 0, done = false, busy = false, lastFailed = null;
+
+// ---------- Start screen ----------
+function renderPeople() {
+  const sib = $("names-sib"), sp = $("names-sp");
+  sib.textContent = ""; sp.textContent = "";
+  const sibs = people.filter(p => p.role !== "spouse"), sps = people.filter(p => p.role === "spouse");
+  if (!sibs.length) { const e = document.createElement("span"); e.className = "empty"; e.textContent = "No names yet. Use \"Not on the list\" below."; sib.append(e); }
+  for (const p of sibs) sib.append(nameBtn(p));
+  for (const p of sps) sp.append(nameBtn(p));
+  $("grp-sp").hidden = !sps.length;
+}
+function nameBtn(p) {
+  const b = document.createElement("button");
+  b.className = "name-btn"; b.type = "button"; b.textContent = p.name;
+  if (p.role === "spouse" && p.partner) { const s = document.createElement("small"); s.textContent = "with " + p.partner; b.append(s); }
+  b.onclick = () => open({ key: "p-" + p.id, personId: p.id, name: p.name, role: p.role });
+  return b;
+}
+$("other-go").onclick = () => {
+  const name = $("other-name").value.trim();
+  if (!name) { $("other-name").focus(); return; }
+  const role = $("other-role").value;
+  open({ key: "o-" + role + "-" + slug(name), name, role });
+};
+
+// ---------- Conversation ----------
+function showChat(name) {
+  $("start").hidden = true; $("chat").hidden = false;
+  $("who-title").textContent = "Remembering Mum with " + name;
+  $("msgs").textContent = "";
+}
+async function open(p) {
+  store.set("mum-last", p);
+  showChat(p.name);
+  turns = []; qNow = 0; done = false;
+  const saved = store.get("mum-conv-" + p.key);
+  const wait = addWait(saved ? "Picking up where you left off…" : "Claude is getting ready…");
+  setBusy(true);
+  try {
+    let r;
+    if (saved && saved.id && saved.token) {
+      try { r = await call("resume", { k: K, id: saved.id, token: saved.token }); C = { ...p, id: saved.id, token: saved.token }; }
+      catch (e) { if (e.code !== "not_found") throw e; store.set("mum-conv-" + p.key, null); }
+    }
+    if (!r) {
+      r = await call("start", p.personId ? { k: K, personId: p.personId } : { k: K, name: p.name, role: p.role });
+      C = { ...p, id: r.id, token: r.token };
+      store.set("mum-conv-" + p.key, { id: r.id, token: r.token });
+    }
+    wait.remove();
+    C.role = r.role || p.role;
+    turns = r.turns || []; qNow = r.q || 0; done = !!r.done;
+    turns.forEach(t => addMsg(t.role, t.content));
+    if (turns.length && turns[turns.length - 1].role === "user") { lastFailed = "retry"; $("retry-btn").hidden = false; }
+    updateProgress(); scrollDown();
+    const lastC = [...turns].reverse().find(t => t.role === "assistant");
+    if (lastC && turns.length <= 1) speak(clean(lastC.content));
+    if (done) finishPanel(); else $("reply").focus();
+  } catch (e) {
+    wait.remove();
+    addSys(msgFor(e));
+    if (!C) { const b = document.createElement("button"); b.className = "btn"; b.textContent = "Back to the list"; b.onclick = back; $("msgs").append(b); }
+  } finally { setBusy(false); }
+}
+function back() {
+  store.set("mum-last", null);
+  C = null; $("chat").hidden = true; $("start").hidden = false; $("menu").hidden = true;
+}
+
+function addMsg(role, content) {
+  const el = document.createElement("div");
+  el.className = role === "assistant" ? "m-c" : "m-y";
+  el.textContent = role === "assistant" ? clean(content) : content;
+  $("msgs").append(el); return el;
+}
+function addSys(text) {
+  const el = document.createElement("p"); el.className = "note"; el.textContent = text;
+  $("msgs").append(el); scrollDown(); return el;
+}
+function addWait(text) {
+  const el = document.createElement("div"); el.className = "m-c thinking"; el.textContent = text;
+  $("msgs").append(el); scrollDown(); return el;
+}
+function scrollDown() { const s = $("scroll"); s.scrollTop = s.scrollHeight; }
+function updateProgress() {
+  const role = C && C.role === "spouse" ? "spouse" : "sibling", total = TOTALS[role];
+  if (done) { $("progress").textContent = "Finished. Thank you."; $("bar").style.width = "100%"; return; }
+  if (!qNow) { $("progress").textContent = "Getting started"; $("bar").style.width = "0%"; return; }
+  const i = Math.min(qNow, total);
+  $("progress").textContent = `Question ${i} of ${total} · ${SECTIONS[role][i - 1]}`;
+  $("bar").style.width = Math.round((i - 1) / total * 100) + "%";
+}
+function setBusy(b) { busy = b; $("send-btn").disabled = b; $("pass-btn").disabled = b; }
+
+async function exchange(action, text) {
+  setBusy(true); $("retry-btn").hidden = true;
+  const wait = addWait("Thinking…");
+  try {
+    const r = await call(action, { k: K, id: C.id, token: C.token, ...(text ? { text } : {}) });
+    wait.remove();
+    turns.push({ role: "assistant", content: r.text, at: Date.now() });
+    addMsg("assistant", r.text);
+    qNow = r.q || qNow; done = !!r.done; lastFailed = null;
+    updateProgress(); speak(clean(r.text));
+    if (done) finishPanel();
+  } catch (e) {
+    wait.remove(); addSys(msgFor(e));
+    lastFailed = "retry"; $("retry-btn").hidden = false;
+  } finally { setBusy(false); scrollDown(); }
+}
+function send(text) {
+  text = String(text || "").trim();
+  if (!text || busy || !C) return;
+  stopSpeaking();
+  turns.push({ role: "user", content: text, at: Date.now() });
+  addMsg("user", text);
+  $("reply").value = ""; autoSize(); scrollDown();
+  exchange("say", text);
+}
+$("send-btn").onclick = () => send($("reply").value);
+$("reply").addEventListener("keydown", e => {
+  if (e.key === "Enter" && !e.shiftKey && !e.isComposing && window.matchMedia("(pointer: fine)").matches) { e.preventDefault(); send($("reply").value); }
+});
+function autoSize() { const r = $("reply"); r.style.height = "auto"; r.style.height = Math.min(r.scrollHeight, window.innerHeight * 0.4) + "px"; }
+$("reply").addEventListener("input", autoSize);
+$("pass-btn").onclick = () => send("I'd rather pass on this one.");
+$("break-btn").onclick = () => { stopSpeaking(); addSys("Your answers are saved. Come back to this same link on this device any time and you'll pick up where you left off."); };
+$("retry-btn").onclick = () => { if (!busy && C) exchange("retry"); };
+function finishPanel() {
+  const el = addSys("That's the whole conversation. Thank you. Your answers are saved for Neil. You can keep your own copy from More at the top.");
+  el.style.background = "var(--accent-soft)"; el.style.color = "var(--ink)";
+}
+
+// ---------- Copies ----------
+function asText(name, list) {
+  const lines = [`# ${name} on Mum`, ""];
+  for (const m of list) lines.push(m.role === "assistant" ? `Claude: ${clean(m.content)}` : `${name}: ${m.content}`, "");
+  return lines.join("\n");
+}
+function download(name, list) {
+  const blob = new Blob([asText(name, list)], { type: "text/markdown" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob); a.download = `${slug(name)}-on-mum.md`;
+  document.body.append(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+}
+$("menu-btn").onclick = () => {
+  const m = $("menu"); m.hidden = !m.hidden; $("menu-btn").setAttribute("aria-expanded", String(!m.hidden));
+  $("menu-msg").textContent = ""; if (!m.hidden) $("scroll").scrollTop = 0;
+};
+$("dl-btn").onclick = () => C && download(C.name, turns);
+$("copy-btn").onclick = () => {
+  if (!C) return;
+  navigator.clipboard.writeText(asText(C.name, turns)).then(
+    () => { $("menu-msg").textContent = "Copied."; },
+    () => { $("menu-msg").textContent = "Couldn't copy here. Use Download instead."; }
+  );
+};
+$("switch-btn").onclick = () => { stopSpeaking(); back(); };
+
+// ---------- Voice (the browser's own speech tools, where it has them) ----------
+const synth = window.speechSynthesis;
+let speakOn = false;
+if (synth) $("speak-toggle").hidden = false;
+function speak(text) { if (!synth || !speakOn || !text) return; try { synth.cancel(); const u = new SpeechSynthesisUtterance(text); u.lang = "en-GB"; synth.speak(u); } catch {} }
+function stopSpeaking() { try { synth && synth.cancel(); } catch {} }
+$("speak-toggle").onclick = () => {
+  speakOn = !speakOn;
+  $("speak-toggle").textContent = "Read aloud: " + (speakOn ? "on" : "off");
+  $("speak-toggle").setAttribute("aria-pressed", String(speakOn));
+  if (!speakOn) stopSpeaking();
+};
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+let rec = null, listening = false;
+if (SR) {
+  $("mic").hidden = false;
+  $("mic").onclick = () => {
+    if (listening) { rec && rec.stop(); return; }
+    stopSpeaking();
+    rec = new SR(); rec.lang = "en-AU"; rec.interimResults = true; rec.continuous = true;
+    const base = $("reply").value ? $("reply").value.replace(/\s*$/, " ") : "";
+    let finalText = "";
+    rec.onresult = ev => {
+      let interim = "";
+      for (let i = ev.resultIndex; i < ev.results.length; i++) {
+        const r = ev.results[i];
+        if (r.isFinal) finalText += r[0].transcript.trim() + " "; else interim += r[0].transcript;
+      }
+      $("reply").value = (base + finalText).trimStart(); autoSize();
+      $("partial").hidden = !interim; $("partial").textContent = interim;
+    };
+    rec.onstart = () => setListening(true);
+    rec.onend = () => { setListening(false); $("partial").hidden = true; };
+    rec.onerror = ev => { if (ev.error === "not-allowed" || ev.error === "service-not-allowed") { $("mic").hidden = true; $("mic-hint").hidden = false; } };
+    try { rec.start(); } catch {}
+  };
+} else $("mic-hint").hidden = false;
+function setListening(on) {
+  listening = on;
+  $("mic").classList.toggle("on", on);
+  $("mic").setAttribute("aria-pressed", String(on));
+  $("mic").textContent = on ? "Listening… tap to stop" : "Talk";
+}
+
+// ---------- Neil's private view ----------
+let sb = null, jwt = null;
+async function bootOwner() {
+  $("start").hidden = true; $("owner").hidden = false;
+  if (!window.supabase) { ownerErr("The sign-in couldn't load. Check your connection and reload."); return; }
+  sb = window.supabase.createClient(SUPABASE_URL, PUBLISHABLE_KEY);
+  const { data } = await sb.auth.getSession();
+  if (data && data.session) { jwt = data.session.access_token; loadPanel(); }
+  else $("signin").hidden = false;
+  sb.auth.onAuthStateChange((_ev, session) => {
+    const t = session ? session.access_token : null;
+    if (t && t !== jwt) { jwt = t; $("signin").hidden = true; loadPanel(); }
+  });
+}
+function ownerErr(t) { const n = $("owner-err"); n.hidden = !t; n.textContent = t || ""; }
+$("si-go").onclick = async () => {
+  const email = $("si-email").value.trim();
+  if (!email) { $("si-email").focus(); return; }
+  $("si-go").disabled = true; $("si-msg").textContent = "";
+  const { error } = await sb.auth.signInWithOtp({ email, options: { emailRedirectTo: location.origin + location.pathname + "?neil" } });
+  $("si-go").disabled = false;
+  $("si-msg").textContent = error ? "That didn't work: " + error.message : "Check your email for the sign-in link, and open it on this device.";
+};
+$("so-btn").onclick = async () => { await sb.auth.signOut(); jwt = null; $("panel").hidden = true; $("signin").hidden = false; };
+
+async function loadPanel() {
+  ownerErr("");
+  let d;
+  try { d = await call("admin_list", {}, jwt); }
+  catch (e) {
+    if (e.code === "not_admin") { ownerErr("This email address isn't the one set up for this page."); }
+    else if (e.code === "sign_in") { $("signin").hidden = false; }
+    else ownerErr("Couldn't load: " + (e.code || "unknown problem"));
+    return;
+  }
+  $("panel").hidden = false;
+  const link = location.origin + location.pathname + "?k=" + encodeURIComponent(d.invite_code);
+  $("share-link").textContent = link;
+  $("share-copy").onclick = () => navigator.clipboard.writeText(link).then(() => { $("share-copy").textContent = "Copied"; }, () => { $("share-copy").textContent = "Select and copy it"; });
+  renderConvs(d.conversations); renderPlist(d.people);
+}
+function renderConvs(list) {
+  const box = $("resp"); box.textContent = "";
+  if (!list.length) { const e = document.createElement("span"); e.className = "empty"; e.textContent = "No one has started yet."; box.append(e); return; }
+  for (const r of list) {
+    const item = document.createElement("div"); item.className = "resp-item";
+    const left = document.createElement("div");
+    const n = document.createElement("span"); n.className = "who"; n.textContent = r.name;
+    const pill = document.createElement("span"); pill.className = "pill"; pill.textContent = r.done ? "Finished" : `Question ${Math.max(1, r.q || 0)} of ${r.total}`;
+    const meta = document.createElement("div"); meta.className = "meta"; meta.textContent = `${r.answers} answers · last active ${fmtDate(r.updated_at)}`;
+    left.append(n, pill, meta);
+    const acts = document.createElement("div"); acts.className = "row";
+    const view = document.createElement("button"); view.className = "btn"; view.type = "button"; view.textContent = "Read";
+    view.onclick = () => openTranscript(r.id);
+    const get = document.createElement("button"); get.className = "btn"; get.type = "button"; get.textContent = "Download";
+    get.onclick = async () => { try { const c = await call("admin_get", { id: r.id }, jwt); download(c.name, c.turns); } catch { get.textContent = "Couldn't download"; } };
+    acts.append(view, get); item.append(left, acts); box.append(item);
+  }
+}
+async function openTranscript(id) {
+  const v = $("viewer"); v.hidden = false; v.textContent = "Loading…";
+  let c;
+  try { c = await call("admin_get", { id }, jwt); } catch { v.textContent = "Couldn't load this conversation."; return; }
+  v.textContent = "";
+  const head = document.createElement("div"); head.className = "row";
+  const h = document.createElement("h2"); h.textContent = c.name; h.style.flex = "1";
+  const close = document.createElement("button"); close.className = "btn quiet"; close.type = "button"; close.textContent = "Close";
+  close.onclick = () => { v.hidden = true; v.textContent = ""; };
+  head.append(h, close);
+  const t = document.createElement("div"); t.className = "transcript";
+  for (const m of c.turns) {
+    const p = document.createElement("p"); p.className = m.role === "assistant" ? "t-c" : "t-y";
+    p.textContent = m.role === "assistant" ? clean(m.content) : m.content; t.append(p);
+  }
+  v.append(head, t); v.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+function renderPlist(list) {
+  const box = $("plist"); box.textContent = "";
+  for (const p of list) {
+    const row = document.createElement("div"); row.className = "resp-item";
+    const who = document.createElement("div");
+    const n = document.createElement("span"); n.className = "who"; n.textContent = p.name;
+    const m = document.createElement("span"); m.className = "meta"; m.textContent = "  " + (p.is_neil ? "You" : p.role === "spouse" ? "Partner" + (p.partner ? " of " + p.partner : "") : "Mum's child");
+    who.append(n, m); row.append(who);
+    if (!p.is_neil) {
+      const rm = document.createElement("button"); rm.className = "btn quiet"; rm.type = "button"; rm.textContent = "Remove";
+      rm.onclick = async () => {
+        if (rm.dataset.sure !== "1") { rm.dataset.sure = "1"; rm.textContent = "Tap again to remove"; return; }
+        try { await call("admin_remove_person", { id: p.id }, jwt); loadPanel(); } catch { rm.textContent = "Couldn't remove"; }
+      };
+      row.append(rm);
+    }
+    box.append(row);
+  }
+}
+$("add-go").onclick = async () => {
+  const name = $("add-name").value.trim();
+  if (!name) { $("add-name").focus(); return; }
+  $("add-go").disabled = true;
+  try {
+    await call("admin_add_person", { name, role: $("add-role").value, partner: $("add-partner").value.trim() }, jwt);
+    $("add-name").value = ""; $("add-partner").value = ""; loadPanel();
+  } catch { $("add-go").textContent = "Couldn't add"; }
+  $("add-go").disabled = false;
+};
+
+// ---------- Boot ----------
+async function boot() {
+  if (ADMIN) { bootOwner(); return; }
+  if (!K) { $("no-link").hidden = false; return; }
+  $("picker").hidden = false;
+  try { people = (await call("people", { k: K })).people || []; renderPeople(); }
+  catch (e) {
+    $("picker").hidden = true;
+    const n = $("start-err"); n.hidden = false; n.textContent = msgFor(e);
+    return;
+  }
+  const last = store.get("mum-last");
+  if (last && last.key && last.name && store.get("mum-conv-" + last.key)) open(last);
+}
+boot();
+})();
+</script>
+</body>
+</html>
