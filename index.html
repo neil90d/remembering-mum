@@ -295,7 +295,9 @@ const msgFor = e => ERR[e && e.code] || "Something interrupted the conversation.
 const params = new URLSearchParams(location.search);
 let K = params.get("k") || store.get("mum-k");
 if (params.get("k")) store.set("mum-k", params.get("k"));
-const ADMIN = params.has("neil");
+// A sign-in link can land on the plain address (Supabase falls back to the
+// site address), so a sign-in in the address also opens Neil's view.
+const ADMIN = params.has("neil") || params.has("code") || /(^|[#&])(access_token|error_description)=/.test(location.hash);
 
 // ---------- State ----------
 let people = [];
@@ -512,8 +514,10 @@ async function bootOwner() {
   if (!window.supabase) { ownerErr("The sign-in couldn't load. Check your connection and reload."); return; }
   sb = window.supabase.createClient(SUPABASE_URL, PUBLISHABLE_KEY);
   const { data } = await sb.auth.getSession();
+  const landed = location.hash.includes("error_description=") ? decodeURIComponent((location.hash.match(/error_description=([^&]*)/) || [])[1] || "").replace(/\+/g, " ") : "";
+  if (!params.has("neil") || location.hash || params.has("code")) history.replaceState(null, "", location.pathname + "?neil");
   if (data && data.session) { jwt = data.session.access_token; loadPanel(); }
-  else $("signin").hidden = false;
+  else { $("signin").hidden = false; if (landed) $("si-msg").textContent = "That sign-in link didn't work (" + landed + "). Ask for a new one."; }
   sb.auth.onAuthStateChange((_ev, session) => {
     const t = session ? session.access_token : null;
     if (t && t !== jwt) { jwt = t; $("signin").hidden = true; loadPanel(); }
